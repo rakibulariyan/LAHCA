@@ -2191,7 +2191,7 @@
             }
         });
 
-        // Replace with your Google Apps Script Web App URL
+        // Google Apps Script Web App URL
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZQ-PAn92cvSjyhs0uL_XHUaQSIGHZv8wshWBAsLLkD356pL0hCL9RRvZYn8yWAGtUiA/exec";
 
         // Form Submission Handler
@@ -2235,9 +2235,6 @@
                 // Reset form
                 document.getElementById('enquiryForm').reset();
                 
-                // Send confirmation email via secondary method
-                sendConfirmationEmail(formData);
-                
                 // Re-enable submit button after 3 seconds
                 setTimeout(() => {
                     document.getElementById('submitBtn').disabled = false;
@@ -2251,72 +2248,6 @@
                 document.getElementById('submitBtn').disabled = false;
             }
         });
-
-        // Alternative method to send confirmation email
-        function sendConfirmationEmail(formData) {
-            const candidateEmail = {
-                to: formData.email,
-                subject: `LAET Admission Enquiry Received - ${formData.name}`,
-                body: `
-Dear ${formData.name},
-
-Thank you for your interest in Lower Assam Educational Trust!
-
-We have received your admission enquiry with the following details:
-
-• Name: ${formData.name}
-• Contact: ${formData.phone}
-• Email: ${formData.email}
-• Qualification: ${formData.qualification}
-• Course Interested: ${formData.course}
-• Message: ${formData.message || 'Not specified'}
-
-Our admission team will review your enquiry and contact you within 24-48 hours at the phone number or email provided.
-
-For any urgent queries, please contact:
-• Phone: +91 86388 12323 / +91 70024 64388
-• Email: admissions@laet.edu.in
-
-Best regards,
-Admission Department
-Lower Assam Educational Trust
-Mayabini Path, Bylane 1, Near Uttar Barpeta Masjid
-Uttar Barpeta, Barpeta, Assam 781301
-                `
-            };
-            
-            const adminEmail = {
-                to: 'admissions@laet.edu.in', // Replace with admin email
-                subject: `NEW ADMISSION ENQUIRY: ${formData.name} - ${formData.course}`,
-                body: `
-NEW ADMISSION ENQUIRY RECEIVED
-
-Candidate Details:
-• Name: ${formData.name}
-• Phone: ${formData.phone}
-• Email: ${formData.email}
-• Qualification: ${formData.qualification}
-• Course Interested: ${formData.course}
-• Message: ${formData.message || 'Not specified'}
-• Submission Time: ${formData.timestamp}
-• Source: ${formData.source}
-
-ACTION REQUIRED:
-1. Add to Google Sheets (if not automated)
-2. Contact candidate within 24 hours
-3. Follow up via email and phone
-                `
-            };
-            
-            // Send emails using mailto links (fallback method)
-            sendMailTo(candidateEmail);
-            sendMailTo(adminEmail);
-        }
-
-        function sendMailTo(emailData) {
-            const mailtoLink = `mailto:${emailData.to}?subject=${encodeURIComponent(emailData.subject)}&body=${encodeURIComponent(emailData.body)}`;
-            window.open(mailtoLink, '_blank');
-        }
     </script>
 </body>
 </html>
