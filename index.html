@@ -829,6 +829,55 @@
             border: none;
         }
 
+        /* Map Buttons Styling */
+        .map-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .map-btn {
+            padding: 15px 35px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .view-map {
+            background: linear-gradient(to right, var(--primary-purple), var(--primary-purple-light));
+            color: white;
+        }
+
+        .get-directions {
+            background: linear-gradient(to right, var(--primary-green), var(--primary-green-light));
+            color: white;
+        }
+
+        .map-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .view-map:hover {
+            background: linear-gradient(to right, var(--primary-purple-light), var(--primary-purple));
+        }
+
+        .get-directions:hover {
+            background: linear-gradient(to right, var(--primary-green-light), var(--primary-green));
+        }
+
         /* Form Styling */
         .contact-form {
             background: var(--card-bg);
@@ -1100,6 +1149,16 @@
             .map-container {
                 height: 300px;
             }
+            
+            .map-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .map-btn {
+                width: 100%;
+                max-width: 300px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1121,57 +1180,6 @@
             
             .status-bar {
                 font-size: 12px;
-            }
-        }
-
-        /* Map Buttons Styling */
-        .map-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
-
-        .map-button {
-            padding: 15px 35px;
-            font-size: 16px;
-            font-weight: 600;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: var(--transition);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: var(--shadow-md);
-        }
-        .view-map {
-            background: linear-gradient(to right, var(--primary-purple), var(--primary-purple-light));
-            color: white;
-        }
-        .view-map:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-            background: linear-gradient(to right, var(--primary-purple-light), var(--primary-purple));
-        }
-        .get-directions {
-            background: linear-gradient(to right, var(--primary-green), var(--primary-green-light));
-            color: white;
-        }
-
-        /* Responsive adjustments for map buttons */
-        @media (max-width: 768px) {
-            .map-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            .map-button {
-                width: 100%;
-                max-width: 300px;
             }
         }
     </style>
@@ -1264,7 +1272,7 @@
             </div>
             <div class="stat-box fade-in">
                 <div class="stat-icon">🏫</div>
-                <div class="stat-number">10+</div>
+                <div class="stat-number">50+</div>
                 <div class="stat-text">Expert Faculty</div>
             </div>
             <div class="stat-box fade-in">
@@ -1274,7 +1282,7 @@
             </div>
             <div class="stat-box fade-in">
                 <div class="stat-icon">🌟</div>
-                <div class="stat-number">5+</div>
+                <div class="stat-number">15+</div>
                 <div class="stat-text">Years of Excellence</div>
             </div>
         </div>
@@ -1522,7 +1530,8 @@
         <div class="map-container">
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3595.8426456789!2d91.3521!3d26.3519!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x375a2da33a0001f9%3A0x8f9c9f9f9f9f9f9f!2sLower%20Assam%20Educational%20Trust!5e0!3m2!1sen!2sin!4v1234567890" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
-
+        
+        <!-- ADDED: Map Buttons Below the Map -->
         <div class="map-buttons">
             <button class="map-btn view-map" onclick="openMapView()">
                 <i class="fas fa-map"></i> View Full Map
@@ -1676,6 +1685,61 @@
         
         updateLiveUsers();
 
+        // ===== ADDED: Map Functions =====
+        function openMapView() {
+            // Google Maps URL for viewing the location
+            const address = "Lower+Assam+Educational+Trust+Mayabini+Path+Bylane+1+Near+Uttar+Barpeta+Masjid+Uttar+Barpeta+Barpeta+Assam+781301";
+            const mapUrl = `https://www.google.com/maps?q=${address}`;
+            
+            // Open in new tab
+            window.open(mapUrl, '_blank');
+            
+            // Optional: Show confirmation message
+            console.log("Opening map view for LAET...");
+            showToast('Opening Google Maps...', 'info');
+        }
+
+        function openDirections() {
+            // Ask user if they want to use their current location
+            if (confirm("Get directions to LAET?\n\nClick OK to use Google Maps with your current location.\nClick Cancel to just open the destination.")) {
+                // Use current location for directions
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            const userLat = position.coords.latitude;
+                            const userLng = position.coords.longitude;
+                            const destLat = 26.3519;
+                            const destLng = 91.3521;
+                            const directionsUrl = `https://www.google.com/maps/dir/${userLat},${userLng}/${destLat},${destLng}`;
+                            window.open(directionsUrl, '_blank');
+                            showToast('Directions opened with your current location!', 'success');
+                        },
+                        (error) => {
+                            // If user denies location or there's an error, open without current location
+                            console.error("Geolocation error:", error);
+                            const address = "Lower+Assam+Educational+Trust+Mayabini+Path+Bylane+1+Near+Uttar+Barpeta+Masjid+Uttar+Barpeta+Barpeta+Assam+781301";
+                            const fallbackUrl = `https://www.google.com/maps/dir/?api=1&destination=${address}`;
+                            window.open(fallbackUrl, '_blank');
+                            showToast('Directions opened! Allow location for better accuracy.', 'info');
+                        }
+                    );
+                } else {
+                    // Geolocation not supported
+                    const address = "Lower+Assam+Educational+Trust+Mayabini+Path+Bylane+1+Near+Uttar+Barpeta+Masjid+Uttar+Barpeta+Barpeta+Assam+781301";
+                    const fallbackUrl = `https://www.google.com/maps/dir/?api=1&destination=${address}`;
+                    window.open(fallbackUrl, '_blank');
+                    showToast('Directions opened!', 'info');
+                }
+            } else {
+                // User clicked Cancel - just open destination
+                const address = "Lower+Assam+Educational+Trust+Mayabini+Path+Bylane+1+Near+Uttar+Barpeta+Masjid+Uttar+Barpeta+Barpeta+Assam+781301";
+                const mapUrl = `https://www.google.com/maps?q=${address}`;
+                window.open(mapUrl, '_blank');
+                showToast('Map opened!', 'info');
+            }
+        }
+        // ===== END ADDED Map Functions =====
+
         // Form submission handler
         function handleSubmit(event) {
             event.preventDefault();
@@ -1750,6 +1814,47 @@
         function simulateDownload() {
             // In a real implementation, this would trigger a file download
             alert('Prospectus download started! Check your downloads folder.');
+        }
+
+        // Helper function for toast notifications (optional)
+        function showToast(message, type) {
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#10B981' : type === 'error' ? '#EF4444' : '#3B82F6'};
+                color: white;
+                padding: 12px 24px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 9999;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            // Add CSS for animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            // Remove toast after 3 seconds
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            }, 3000);
         }
 
         // Scroll animation for elements
