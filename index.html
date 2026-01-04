@@ -28,6 +28,9 @@
             --shadow-xl: 0 20px 40px rgba(107, 33, 255, 0.15);
             --border-radius: 12px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --festive-red: #DC2626;
+            --festive-gold: #FFD700;
+            --festive-green: #16A34A;
         }
 
         * {
@@ -224,7 +227,7 @@
         /* Scroll Progress Bar */
         .scroll-progress {
             position: fixed;
-            top: 0;
+            top: 60px;
             left: 0;
             width: 0%;
             height: 4px;
@@ -268,53 +271,13 @@
             border-radius: 50%;
         }
 
-        /* Status Bar in Header */
-        .status-bar {
-            background: linear-gradient(to right, var(--primary-purple), var(--primary-green));
-            color: white;
-            padding: 8px 0;
-            font-size: 14px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            z-index: 1001;
-        }
-
-        .status-content {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 30px;
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .status-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .status-icon {
-            font-size: 16px;
-        }
-
-        .live-users {
-            background: var(--festive-red);
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-weight: 600;
-            animation: pulse 2s infinite;
-        }
-
         /* Header & Navigation */
         header {
             background-color: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(10px);
             padding: 18px 0;
             position: fixed;
-            top: 40px; /* Account for status bar height */
+            top: 0;
             width: 100%;
             z-index: 1000;
             box-shadow: var(--shadow-md);
@@ -342,8 +305,18 @@
         }
 
         .logo-icon {
-            color: var(--primary-green);
-            font-size: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+        }
+
+        .logo-img {
+            height: 50px;
+            width: auto;
+            max-width: 100%;
+            object-fit: contain;
         }
 
         .logo-text {
@@ -426,7 +399,7 @@
 
         /* Hero Section */
         .hero {
-            padding: 200px 20px 100px; /* Increased top padding for status bar */
+            padding: 160px 20px 100px; /* Increased top padding for status bar */
             background: linear-gradient(135deg, rgba(76, 29, 149, 0.95) 0%, rgba(37, 99, 235, 0.95) 100%), 
                         url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
@@ -1123,6 +1096,77 @@
             font-size: 18px;
         }
 
+        /* Loading Spinner */
+        .spinner {
+            display: none;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary-purple);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            background: #F0FDF4;
+            border: 1px solid var(--primary-green);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .success-message i {
+            color: var(--primary-green);
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .success-message h3 {
+            color: var(--primary-green);
+            margin-bottom: 10px;
+        }
+
+        .success-message p {
+            color: var(--text-medium);
+            margin: 0;
+        }
+
+        /* Error Message */
+        .error-message {
+            display: none;
+            background: #FEF2F2;
+            border: 1px solid #EF4444;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .error-message i {
+            color: #EF4444;
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .error-message h3 {
+            color: #EF4444;
+            margin-bottom: 10px;
+        }
+
+        .error-message p {
+            color: var(--text-medium);
+            margin: 0;
+        }
+
         /* Footer - Simplified */
         footer {
             background: var(--dark-bg);
@@ -1261,14 +1305,8 @@
                 justify-content: space-between;
             }
 
-            .status-content {
-                flex-direction: column;
-                gap: 10px;
-                text-align: center;
-            }
-
             .hero {
-                padding: 180px 20px 80px;
+                padding: 140px 20px 80px;
             }
 
             .hero h1 {
@@ -1334,9 +1372,14 @@
                 width: 100%;
                 max-width: 300px;
             }
+
+            .logo-img {
+                height: 40px;
+            }
         }
 
-        .whatsapp-float {
+        @media (max-width: 768px) {
+            .whatsapp-float {
                 bottom: 20px;
                 right: 20px;
                 width: 50px;
@@ -1350,6 +1393,7 @@
                 max-width: 300px;
             }
             .whatsapp-tooltip { display: none; }
+        }
 
         @media (max-width: 480px) {
             .stats-container {
@@ -1367,12 +1411,11 @@
             .banner-text h2 {
                 font-size: 24px;
             }
-            
-            .status-bar {
-                font-size: 12px;
+
+            .logo-img {
+                height: 35px;
             }
         }
-        
     </style>
 </head>
 <body>
@@ -1440,29 +1483,16 @@
     <!-- Happy New Year Animation Container -->
     <div class="festive-container" id="festiveContainer"></div>
 
-    <!-- Status Bar -->
-    <div class="status-bar">
-        <div class="status-content">
-            <div class="status-item">
-                <span class="status-icon">🎓</span>
-                <span>Admissions Open 2026-27</span>
-            </div>
-            <div class="status-item">
-                <span class="status-icon">👥</span>
-                <span>Live Visitors: <span class="live-users" id="liveUsers">245</span></span>
-            </div>
-            <div class="status-item">
-                <span class="status-icon">⏰</span>
-                <span>Application Deadline: 31st March 2026</span>
-            </div>
-        </div>
-    </div>
-
     <!-- Header -->
     <header>
         <div class="header-container">
             <a href="#" class="logo">
-                <div class="logo-icon">🎓</div>
+                <div class="logo-icon">
+                    <!-- Replace this with your logo image -->
+                    <!-- <img src="assets/uploads/LAET-logo.png" alt="LAET Logo" class="logo-img"> -->
+                    <!-- Keep emoji as fallback -->
+                    <span style="font-size: 40px;">🎓</span>
+                </div>
                 <div class="logo-text">
                     LAET
                     <span class="logo-subtext">EDUCATIONAL TRUST</span>
@@ -1766,7 +1796,7 @@
                     <div class="form-icon"><i class="fas fa-comment"></i></div>
                 </div>
 
-                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                <button type="submit" class="btn btn-primary" style="width: 100%;" id="submitBtn">
                     <i class="fas fa-paper-plane"></i> Submit Enquiry
                 </button>
                 <!-- Loading Spinner -->
@@ -1835,7 +1865,7 @@
 
         function openWhatsAppChat(type) {
             let message = '';
-            const phone = '+918638851516'; // LAET WhatsApp number
+            const phone = '918638851516'; // LAET WhatsApp number (without +)
             
             switch(type) {
                 case 'general':
@@ -1937,12 +1967,12 @@
         }
         
         // Create festive elements periodically
-        let festiveInterval = setInterval(createFestiveElement, 200);
+        let festiveInterval = setInterval(createFestiveElement, 500);
         
-        // Stop animation after 30 seconds to avoid performance issues
+        // Stop animation after 15 seconds to avoid performance issues
         setTimeout(() => {
             clearInterval(festiveInterval);
-        }, 30000);
+        }, 15000);
         
         // Mobile menu toggle
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
@@ -1969,32 +1999,14 @@
             if (window.scrollY > 50) {
                 header.style.padding = '12px 0';
                 header.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.1)';
+                scrollProgress.style.top = '60px'; // Adjust for smaller header
             } else {
                 header.style.padding = '18px 0';
                 header.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.08)';
+                scrollProgress.style.top = '70px'; // Adjust for normal header
             }
         });
 
-        // Live user counter simulation
-        const liveUsers = document.getElementById('liveUsers');
-        let userCount = 245;
-        
-        function updateLiveUsers() {
-            // Randomly increase or decrease user count
-            const change = Math.random() > 0.5 ? 1 : -1;
-            userCount += change;
-            
-            // Keep within realistic bounds
-            if (userCount < 200) userCount = 200;
-            if (userCount > 300) userCount = 300;
-            
-            liveUsers.textContent = userCount;
-            
-            // Schedule next update
-            setTimeout(updateLiveUsers, Math.random() * 5000 + 3000);
-        }
-        
-        updateLiveUsers();
 
         // ===== ADDED: Map Functions =====
         function openMapView() {
@@ -2049,50 +2061,6 @@
                 showToast('Map opened!', 'info');
             }
         }
-        // ===== END ADDED Map Functions =====
-
-        // Form submission handler
-        function handleSubmit(event) {
-            event.preventDefault();
-            
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const qualification = document.getElementById('qualification').value;
-            const course = document.getElementById('course').value;
-            
-            // Create a modal-like confirmation
-            const modalHTML = `
-                <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); display:flex; justify-content:center; align-items:center; z-index:9999;">
-                    <div style="background:white; padding:40px; border-radius:16px; max-width:500px; width:90%; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.3);">
-                        <div style="font-size:60px; color:#10B981; margin-bottom:20px;">✓</div>
-                        <h3 style="color:#4C1D95; margin-bottom:15px;">Enquiry Submitted Successfully!</h3>
-                        <p style="color:#4B5563; margin-bottom:25px; line-height:1.6;">
-                            Thank you <strong>${name}</strong>! Your admission enquiry has been received.<br><br>
-                            We will contact you shortly at <strong>${phone}</strong> regarding the <strong>${course}</strong> program.
-                        </p>
-                        <button onclick="closeModal()" style="background:#4C1D95; color:white; border:none; padding:14px 40px; border-radius:8px; font-weight:600; cursor:pointer; transition:all 0.3s;">
-                            Close & Continue
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            const modalDiv = document.createElement('div');
-            modalDiv.innerHTML = modalHTML;
-            document.body.appendChild(modalDiv);
-            
-            // Reset form
-            event.target.reset();
-            
-            // Log submission (in real scenario, would send to server)
-            console.log(`Enquiry submitted: ${name}, ${email}, ${phone}, ${qualification}, ${course}`);
-        }
-        
-        function closeModal() {
-            const modal = document.querySelector('body > div:last-child');
-            if (modal) modal.remove();
-        }
 
         // Download prospectus function
         function downloadProspectus() {
@@ -2125,6 +2093,11 @@
         function simulateDownload() {
             // In a real implementation, this would trigger a file download
             alert('Prospectus download started! Check your downloads folder.');
+        }
+
+        function closeModal() {
+            const modal = document.querySelector('body > div:last-child');
+            if (modal) modal.remove();
         }
 
         // Helper function for toast notifications (optional)
@@ -2217,10 +2190,8 @@
                 }, i * 100);
             }
         });
-    </script>
 
-<script>
-    // Replace with your Google Apps Script Web App URL
+        // Replace with your Google Apps Script Web App URL
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZQ-PAn92cvSjyhs0uL_XHUaQSIGHZv8wshWBAsLLkD356pL0hCL9RRvZYn8yWAGtUiA/exec";
 
         // Form Submission Handler
@@ -2346,7 +2317,6 @@ ACTION REQUIRED:
             const mailtoLink = `mailto:${emailData.to}?subject=${encodeURIComponent(emailData.subject)}&body=${encodeURIComponent(emailData.body)}`;
             window.open(mailtoLink, '_blank');
         }
-</script>
-
+    </script>
 </body>
 </html>
